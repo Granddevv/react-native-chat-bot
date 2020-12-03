@@ -7,40 +7,45 @@ const Sender: () => React$Node = ({currentQuestion, sendText}) => {
     const [ error, setError ] = useState('')
 
     const handleText = () => {
-        if(typeof currentQuestion.validation === 'object') {
-            if(Array.isArray(currentQuestion.validation)) {
-                let availableAnswers = currentQuestion.validation;
-                let matchedAnswer = availableAnswers.find(answer => answer === text.toLowerCase());
-                if(matchedAnswer) {
+        if(text?.length > 0) {
+            if(typeof currentQuestion.validation === 'object') {
+                if(Array.isArray(currentQuestion.validation)) {
+                    let availableAnswers = currentQuestion.validation;
+                    let matchedAnswer = availableAnswers.find(answer => answer === text.toLowerCase());
+                    if(matchedAnswer) {
+                        sendText(text);
+                        setText('');
+                        return ;
+                    } else {
+                        let errorMessage = 'You need to select one of these answers - ';
+                        for(let anwser of availableAnswers) {
+                            errorMessage = errorMessage + ' ' + anwser;
+                        }
+                        setError(errorMessage);
+                        return ;
+                    }
+                }
+            } else if(typeof currentQuestion.validation === 'boolean') {
+                if(currentQuestion.validation) {
                     sendText(text);
                     setText('');
                     return ;
                 } else {
-                    let errorMessage = 'You need to select one of these answers - ';
-                    for(let anwser of availableAnswers) {
-                        errorMessage = errorMessage + ' ' + anwser;
-                    }
-                    setError(errorMessage);
+                    setText('')
+                }
+            } else if(typeof currentQuestion.validation === 'string') {
+                if(text.match(currentQuestion.validation)) {
+                    sendText(text);
+                    setText('');
+                    return ;
+                } else {
+                    setError('Validation Error');
                     return ;
                 }
             }
-        } else if(typeof currentQuestion.validation === 'boolean') {
-            if(currentQuestion.validation) {
-                sendText(text);
-                setText('');
-                return ;
-            } else {
-                setText('')
-            }
-        } else if(typeof currentQuestion.validation === 'string') {
-            if(text.match(currentQuestion.validation)) {
-                sendText(text);
-                setText('');
-                return ;
-            } else {
-                setError('Validation Error');
-                return ;
-            }
+        } else {
+            setError('Text is required.');
+            return
         }
     }
 
