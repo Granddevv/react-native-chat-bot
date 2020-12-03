@@ -24,6 +24,9 @@ const MainPanel: () => React$Node = ({chatHistory}) => {
                     )
                 }
             })}
+            <View style={styles.footer}>
+
+            </View>
         </ScrollView>
     )
 }

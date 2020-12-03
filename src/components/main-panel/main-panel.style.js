@@ -5,7 +5,8 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         backgroundColor: '#ffffff',
-        padding: 30
+        padding: 30,
+        marginBottom: 110
     },
     chatItemBotContainer: {
         justifyContent: 'flex-start'
@@ -24,6 +25,9 @@ const styles = StyleSheet.create({
     textChat: {
         fontSize: 16,
         color: '#444444'
+    },
+    footer: {
+        height: 40
     }
 })
 
